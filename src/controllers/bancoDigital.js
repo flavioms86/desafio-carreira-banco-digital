@@ -22,7 +22,7 @@ const listarContas = async (req, res) => {
 
 };
 
-const cadastrarConta = (req, res) => {
+const cadastrarConta = async (req, res) => {
     const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
     if (!validarDados.validarDadosCliente(nome, cpf, data_nascimento, telefone, email, senha)) {
@@ -31,32 +31,46 @@ const cadastrarConta = (req, res) => {
 
     };
 
-    if (validarDados.verificarCpfEmail(cpf, email, contas)) {
+    try {
 
-        return res.status(400).json({ 'mensagem': 'Já existe uma conta com o cpf ou e-mail informado!' });
-    };
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    const novaConta = {
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-        "numero": gerarNumeroConta(contas).toString(),
-        "saldo": 0,
-        "usuario": {
-            nome,
-            cpf,
-            data_nascimento,
-            telefone,
-            email,
-            senha
-        }
-    };
+        if (validarDados.verificarCpfEmail(cpf, email, contasCadastradasObj.contas)) {
 
-    contas.push(novaConta);
+            return res.status(400).json({ 'mensagem': 'Já existe uma conta com o cpf ou e-mail informado!' });
+        };
 
-    return res.status(204).json();
+        const novaConta = {
+
+            "numero": gerarNumeroConta(contasCadastradasObj.contas).toString(),
+            "saldo": 0,
+            "usuario": {
+                nome,
+                cpf,
+                data_nascimento,
+                telefone,
+                email,
+                senha
+            }
+        };
+
+        contasCadastradasObj.contas.push(novaConta);
+
+        await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj))
+
+        return res.status(204).json();
+
+    } catch (error) {
+
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+
+    }
 
 };
 
-const atualizarUsuarioConta = (req, res) => {
+const atualizarUsuarioConta = async (req, res) => {
     const { numeroConta } = req.params;
     const { nome, cpf, data_nascimento, telefone, email, senha } = req.body;
 
@@ -66,7 +80,11 @@ const atualizarUsuarioConta = (req, res) => {
 
     };
 
-    const conta = validarDados.retornarConta(numeroConta, contas);
+    const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
+
+    const contasCadastradasObj = JSON.parse(contasCadastradas);
+
+    const conta = validarDados.retornarConta(numeroConta, contasCadastradasObj.contas);
 
     if (!conta) {
 
@@ -74,7 +92,7 @@ const atualizarUsuarioConta = (req, res) => {
 
     };
 
-    const outrosClientes = contas.filter((contas) => {
+    const outrosClientes = contasCadastradasObj.contas.filter((contas) => {
         return contas.numero !== numeroConta
     });
 
@@ -90,6 +108,8 @@ const atualizarUsuarioConta = (req, res) => {
     conta.usuario.telefone = telefone;
     conta.usuario.email = email;
     conta.usuario.senha = senha;
+
+    await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
 
     return res.status(204).json();
 };
