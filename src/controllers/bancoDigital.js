@@ -121,25 +121,36 @@ const atualizarUsuarioConta = async (req, res) => {
 
 };
 
-const removerConta = (req, res) => {
+const removerConta = async (req, res) => {
     const { numeroConta } = req.params;
 
-    if (validarDados.localizarConta(numeroConta, contas) === -1) {
+    try {
 
-        return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    };
+        const contasCadastradasObj = JSON.parse(contasCadastradas.contas);
 
-    if (validarDados.verificarSaldo(numeroConta, contas) !== 0) {
+        if (validarDados.localizarConta(numeroConta, contasCadastradasObj.contas) === -1) {
 
-        return res.status(400).json({ 'mensagem': 'A conta só pode ser removida se o saldo for zero!' });
-    };
+            return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
+        };
 
-    contas = contas.filter((contas) => {
-        return contas.numero !== numeroConta;
-    });
+        if (validarDados.verificarSaldo(numeroConta, contasCadastradasObj.contas) !== 0) {
 
-    return res.status(204).json();
+            return res.status(400).json({ 'mensagem': 'A conta só pode ser removida se o saldo for zero!' });
+        };
+
+        contasCadastradasObj.contas = contasCadastradasObj.contas.filter((contas) => {
+            return contas.numero !== numeroConta;
+        });
+
+        await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
+
+        return res.status(204).json();
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
 
 };
 
