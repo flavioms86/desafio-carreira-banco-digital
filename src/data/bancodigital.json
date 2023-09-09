@@ -1,1 +1,123 @@
-{"banco":{"nome":"Cubos Bank","numero":"123","agencia":"0001","senha":"Cubos123Bank"},"contas":[{"numero":"1","saldo":251000,"usuario":{"nome":"Foo Bar","cpf":"00011122233","data_nascimento":"2021-03-15","telefone":"71999998888","email":"foo@bar.com","senha":"1234"}},{"numero":"2","saldo":349740000,"usuario":{"nome":"Flavio Marques e Silva","cpf":"11111111111","data_nascimento":"2000-01-01","telefone":"83111111111","email":"flavio@silva.com","senha":"1234"}},{"numero":"3","saldo":348750000,"usuario":{"nome":"Paulino Maia","cpf":"11111111112","data_nascimento":"1990-01-01","telefone":"83111111112","email":"paulino@maia.com","senha":"1234"}}],"saques":[{"data":"2023-09-09 17:16:21","numero_conta":"2","valor":10000},{"data":"2023-09-09 17:16:37","numero_conta":"3","valor":250000},{"data":"2023-09-09 17:18:25","numero_conta":"3","valor":1000000}],"depositos":[{"data":"2023-09-09 17:08:27","numero_conta":"2","valor":350000000},{"data":"2023-09-09 17:08:43","numero_conta":"3","valor":350000000}],"transferencias":[{"data":"2023-09-09 17:24:46","numero_conta_origem":"2","numero_conta_destino":"1","valor":250000},{"data":"2023-09-09 17:25:32","numero_conta_origem":"1","numero_conta_destino":"2","valor":250000},{"data":"2023-09-09 17:29:30","numero_conta_origem":"2","numero_conta_destino":"1","valor":250000}]}
+{
+    "banco": {
+        "nome": "Cubos Bank",
+        "numero": "123",
+        "agencia": "0001",
+        "senha": "Cubos123Bank"
+    },
+    "contas": [
+        {
+            "numero": "1",
+            "saldo": 220333,
+            "usuario": {
+                "nome": "Foo Bar",
+                "cpf": "00011122233",
+                "data_nascimento": "2021-03-15",
+                "telefone": "71999998888",
+                "email": "foo@bar.com",
+                "senha": "1234"
+            }
+        },
+        {
+            "numero": "2",
+            "saldo": 230000,
+            "usuario": {
+                "nome": "Fulano da Silva",
+                "cpf": "11111111111",
+                "data_nascimento": "2000-01-01",
+                "telefone": "83111111111",
+                "email": "fulano@silva.com",
+                "senha": "1234"
+            }
+        },
+        {
+            "numero": "3",
+            "saldo": 219667,
+            "usuario": {
+                "nome": "Sicrano Santos Silva",
+                "cpf": "11111111112",
+                "data_nascimento": "1990-01-01",
+                "telefone": "83111111112",
+                "email": "sicrano@santossilva.com",
+                "senha": "1234"
+            }
+        }
+    ],
+    "saques": [
+        {
+            "data": "2023-09-09 17:55:04",
+            "numero_conta": "1",
+            "valor": 10000
+        },
+        {
+            "data": "2023-09-09 17:55:08",
+            "numero_conta": "1",
+            "valor": 20000
+        },
+        {
+            "data": "2023-09-09 17:55:12",
+            "numero_conta": "2",
+            "valor": 20000
+        },
+        {
+            "data": "2023-09-09 17:55:18",
+            "numero_conta": "3",
+            "valor": 30000
+        }
+    ],
+    "depositos": [
+        {
+            "data": "2023-09-09 17:54:46",
+            "numero_conta": "1",
+            "valor": 250000
+        },
+        {
+            "data": "2023-09-09 17:54:49",
+            "numero_conta": "2",
+            "valor": 250000
+        },
+        {
+            "data": "2023-09-09 17:54:52",
+            "numero_conta": "3",
+            "valor": 250000
+        }
+    ],
+    "transferencias": [
+        {
+            "data": "2023-09-09 17:55:53",
+            "numero_conta_origem": "1",
+            "numero_conta_destino": "2",
+            "valor": 111
+        },
+        {
+            "data": "2023-09-09 17:55:59",
+            "numero_conta_origem": "1",
+            "numero_conta_destino": "3",
+            "valor": 111
+        },
+        {
+            "data": "2023-09-09 17:56:07",
+            "numero_conta_origem": "2",
+            "numero_conta_destino": "1",
+            "valor": 222
+        },
+        {
+            "data": "2023-09-09 17:56:12",
+            "numero_conta_origem": "2",
+            "numero_conta_destino": "3",
+            "valor": 222
+        },
+        {
+            "data": "2023-09-09 17:56:20",
+            "numero_conta_origem": "3",
+            "numero_conta_destino": "1",
+            "valor": 333
+        },
+        {
+            "data": "2023-09-09 17:56:24",
+            "numero_conta_origem": "3",
+            "numero_conta_destino": "2",
+            "valor": 333
+        }
+    ]
+}

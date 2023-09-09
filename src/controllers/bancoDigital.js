@@ -2,8 +2,6 @@ const gerarNumeroConta = require("../shared/gerarNumeroConta");
 const validarDados = require("../shared/validarDados");
 const formatarData = require("../shared/registroData");
 const fs = require('fs/promises');
-let { contas, depositos, saques, transferencias } = require("../data/bancodedados");
-
 
 const listarContas = async (req, res) => {
 
@@ -349,39 +347,49 @@ const exibirSaldo = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ 'mensagem': 'Erro interno.' });
     }
-
 };
 
-const exibirExtrato = (req, res) => {
+const exibirExtrato = async (req, res) => {
     const { numero_conta, senha } = req.query;
 
     if (!numero_conta || !senha) {
         return res.status(400).json({ 'mensagem': 'O número da conta e senha devem ser informados.' });
     };
 
-    const conta = validarDados.retornarConta(numero_conta, contas);
+    try {
 
-    if (!conta) {
-        return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
-    };
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    if (!validarDados.validarSenha(senha, conta)) {
-        return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' })
-    };
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-    const depositosNaConta = depositos.filter(deposito => deposito.numero_conta === numero_conta);
-    const saquesNaConta = saques.filter(saque => saque.numero_conta === numero_conta);
-    const transferenciasEnviadas = transferencias.filter(transferencia => transferencia.numero_conta_origem === numero_conta);
-    const transferenciasRecebidas = transferencias.filter(transferencia => transferencia.numero_conta_destino === numero_conta);
+        const conta = validarDados.retornarConta(numero_conta, contasCadastradasObj.contas);
 
-    const extratoConta = {
-        depositos: depositosNaConta,
-        saques: saquesNaConta,
-        transferenciasEnviadas,
-        transferenciasRecebidas
+        if (!conta) {
+            return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
+        };
+
+        if (!validarDados.validarSenha(senha, conta)) {
+            return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' })
+        };
+
+        const depositosNaConta = contasCadastradasObj.depositos.filter(deposito => deposito.numero_conta === numero_conta);
+        const saquesNaConta = contasCadastradasObj.saques.filter(saque => saque.numero_conta === numero_conta);
+        const transferenciasEnviadas = contasCadastradasObj.transferencias.filter(transferencia => transferencia.numero_conta_origem === numero_conta);
+        const transferenciasRecebidas = contasCadastradasObj.transferencias.filter(transferencia => transferencia.numero_conta_destino === numero_conta);
+
+        const extratoConta = {
+            depositos: depositosNaConta,
+            saques: saquesNaConta,
+            transferenciasEnviadas,
+            transferenciasRecebidas
+        }
+
+        return res.status(200).json(extratoConta);
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
     }
 
-    return res.status(200).json(extratoConta);
 }
 
 module.exports = {
