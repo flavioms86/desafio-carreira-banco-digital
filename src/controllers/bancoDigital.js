@@ -256,7 +256,7 @@ const sacarSaldo = async (req, res) => {
 
 };
 
-const transferirSaldo = (req, res) => {
+const transferirSaldo = async (req, res) => {
     const { numero_conta_origem, numero_conta_destino, senha, valor } = req.body;
 
     if (!numero_conta_origem || !numero_conta_destino || !senha) {
@@ -269,44 +269,57 @@ const transferirSaldo = (req, res) => {
 
     };
 
-    const contaOrigem = validarDados.retornarConta(numero_conta_origem, contas);
+    try {
 
-    if (!contaOrigem) {
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-        return res.status(404).json({ 'mensagem': 'A conta de orgigem não existe.' });
-    };
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-    const contaDestino = validarDados.retornarConta(numero_conta_destino, contas);
+        const contaOrigem = validarDados.retornarConta(numero_conta_origem, contasCadastradasObj.contas);
 
-    if (!contaDestino) {
+        if (!contaOrigem) {
 
-        return res.status(404).json({ 'mensagem': 'A conta de destino não existe.' });
-    };
+            return res.status(404).json({ 'mensagem': 'A conta de origem não existe.' });
+        };
 
-    if (!validarDados.validarSenha(senha, contaOrigem)) {
+        const contaDestino = validarDados.retornarConta(numero_conta_destino, contasCadastradasObj.contas);
 
-        return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' });
-    };
+        if (!contaDestino) {
 
-    if (!validarDados.verificarSaldoConta(valor, contaOrigem)) {
+            return res.status(404).json({ 'mensagem': 'A conta de destino não existe.' });
+        };
 
-        return res.status(400).json({ 'mensagem': 'Saldo insuficiente!' });
-    };
+        if (!validarDados.validarSenha(senha, contaOrigem)) {
 
-    contaOrigem.saldo -= valor;
+            return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' });
+        };
 
-    contaDestino.saldo += valor;
+        if (!validarDados.verificarSaldoConta(valor, contaOrigem)) {
 
-    const registroTransferencia = {
-        data: formatarData(new Date()),
-        numero_conta_origem,
-        numero_conta_destino,
-        valor
-    };
+            return res.status(400).json({ 'mensagem': 'Saldo insuficiente!' });
+        };
 
-    transferencias.push(registroTransferencia);
+        contaOrigem.saldo -= valor;
 
-    return res.status(204).json();
+        contaDestino.saldo += valor;
+
+        const registroTransferencia = {
+            data: formatarData(new Date()),
+            numero_conta_origem,
+            numero_conta_destino,
+            valor
+        };
+
+        contasCadastradasObj.transferencias.push(registroTransferencia);
+
+        await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
+
+        return res.status(204).json();
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
+
 
 };
 
