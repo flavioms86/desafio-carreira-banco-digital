@@ -1,0 +1,19 @@
+{
+  "name": "desafio-backend-modulo-02-sistema-bancario-b2b-ifood-t08",
+  "version": "1.0.0",
+  "description": "Sistema de registro bancário do desafio Backend módulo 02",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./src/index.js"
+  },
+  "keywords": [],
+  "author": "Flavio M. Silva",
+  "license": "ISC",
+  "dependencies": {
+    "date-fns": "^2.30.0",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
