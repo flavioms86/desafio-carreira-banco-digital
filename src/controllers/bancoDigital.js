@@ -128,7 +128,7 @@ const removerConta = async (req, res) => {
 
         const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-        const contasCadastradasObj = JSON.parse(contasCadastradas.contas);
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
         if (validarDados.localizarConta(numeroConta, contasCadastradasObj.contas) === -1) {
 
@@ -154,7 +154,7 @@ const removerConta = async (req, res) => {
 
 };
 
-const depositarSaldo = (req, res) => {
+const depositarSaldo = async (req, res) => {
 
     const { numero_conta, valor } = req.body;
 
@@ -168,25 +168,38 @@ const depositarSaldo = (req, res) => {
 
     };
 
-    if (validarDados.localizarConta(numero_conta, contas) === -1) {
+    try {
 
-        return res.status(404).json({ 'mensagem': 'Conta inexistente.' });
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    };
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-    const conta = validarDados.retornarConta(numero_conta, contas);
+        if (validarDados.localizarConta(numero_conta, contasCadastradasObj.contas) === -1) {
 
-    conta.saldo += valor;
+            return res.status(404).json({ 'mensagem': 'Conta inexistente.' });
 
-    const registroDeposito = {
-        data: formatarData(new Date()),
-        numero_conta,
-        valor
-    };
+        };
 
-    depositos.push(registroDeposito);
+        const conta = validarDados.retornarConta(numero_conta, contasCadastradasObj.contas);
 
-    return res.status(204).json();
+        conta.saldo += valor;
+
+        const registroDeposito = {
+            data: formatarData(new Date()),
+            numero_conta,
+            valor
+        };
+
+        contasCadastradasObj.depositos.push(registroDeposito);
+
+        await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
+
+        return res.status(204).json();
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
+
 
 };
 

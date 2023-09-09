@@ -20,7 +20,7 @@
         },
         {
             "numero": "2",
-            "saldo": 0,
+            "saldo": 350000000,
             "usuario": {
                 "nome": "Flavio Marques e Silva",
                 "cpf": "11111111111",
@@ -32,7 +32,7 @@
         },
         {
             "numero": "3",
-            "saldo": 0,
+            "saldo": 350000000,
             "usuario": {
                 "nome": "Paulino Maia",
                 "cpf": "11111111112",
@@ -44,6 +44,17 @@
         }
     ],
     "saques": [],
-    "depositos": [],
+    "depositos": [
+        {
+            "data": "2023-09-09 17:08:27",
+            "numero_conta": "2",
+            "valor": 350000000
+        },
+        {
+            "data": "2023-09-09 17:08:43",
+            "numero_conta": "3",
+            "valor": 350000000
+        }
+    ],
     "transferencias": []
 }
