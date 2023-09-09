@@ -203,7 +203,7 @@ const depositarSaldo = async (req, res) => {
 
 };
 
-const sacarSaldo = (req, res) => {
+const sacarSaldo = async (req, res) => {
     const { numero_conta, valor, senha } = req.body;
 
     if (validarDados.validarContaValor(numero_conta, valor) === 0 && senha) {
@@ -216,31 +216,44 @@ const sacarSaldo = (req, res) => {
 
     };
 
-    const conta = validarDados.retornarConta(numero_conta, contas);
+    try {
 
-    if (!conta) {
-        return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
-    };
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    if (!validarDados.validarSenha(senha, conta)) {
-        return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' });
-    };
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-    if (!validarDados.verificarSaldoConta(valor, conta)) {
-        return res.status(400).json({ 'mensagem': 'Saldo insuficiente!' });
-    };
+        const conta = validarDados.retornarConta(numero_conta, contasCadastradasObj.contas);
 
-    conta.saldo -= valor;
+        if (!conta) {
+            return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
+        };
 
-    const registroSaque = {
-        data: formatarData(new Date()),
-        numero_conta,
-        valor
-    };
+        if (!validarDados.validarSenha(senha, conta)) {
+            return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' });
+        };
 
-    saques.push(registroSaque);
+        if (!validarDados.verificarSaldoConta(valor, conta)) {
+            return res.status(400).json({ 'mensagem': 'Saldo insuficiente!' });
+        };
 
-    return res.status(204).json();
+        conta.saldo -= valor;
+
+        const registroSaque = {
+            data: formatarData(new Date()),
+            numero_conta,
+            valor
+        };
+
+        contasCadastradasObj.saques.push(registroSaque);
+
+        await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
+
+        return res.status(204).json();
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
+
 };
 
 const transferirSaldo = (req, res) => {
