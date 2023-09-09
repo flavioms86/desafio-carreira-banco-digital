@@ -80,38 +80,45 @@ const atualizarUsuarioConta = async (req, res) => {
 
     };
 
-    const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
+    try {
 
-    const contasCadastradasObj = JSON.parse(contasCadastradas);
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    const conta = validarDados.retornarConta(numeroConta, contasCadastradasObj.contas);
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-    if (!conta) {
+        const conta = validarDados.retornarConta(numeroConta, contasCadastradasObj.contas);
 
-        return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
+        if (!conta) {
 
-    };
+            return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
 
-    const outrosClientes = contasCadastradasObj.contas.filter((contas) => {
-        return contas.numero !== numeroConta
-    });
+        };
 
-    if (validarDados.verificarCpfEmail(cpf, email, outrosClientes)) {
+        const outrosClientes = contasCadastradasObj.contas.filter((contas) => {
+            return contas.numero !== numeroConta
+        });
 
-        return res.status(400).json({ 'mensagem': 'Já existe uma conta com o cpf ou e-mail informado!' });
+        if (validarDados.verificarCpfEmail(cpf, email, outrosClientes)) {
 
-    };
+            return res.status(400).json({ 'mensagem': 'Já existe uma conta com o cpf ou e-mail informado!' });
 
-    conta.usuario.nome = nome;
-    conta.usuario.cpf = cpf;
-    conta.usuario.data_nascimento = data_nascimento;
-    conta.usuario.telefone = telefone;
-    conta.usuario.email = email;
-    conta.usuario.senha = senha;
+        };
 
-    await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
+        conta.usuario.nome = nome;
+        conta.usuario.cpf = cpf;
+        conta.usuario.data_nascimento = data_nascimento;
+        conta.usuario.telefone = telefone;
+        conta.usuario.email = email;
+        conta.usuario.senha = senha;
 
-    return res.status(204).json();
+        await fs.writeFile('./src/data/bancodigital.json', JSON.stringify(contasCadastradasObj));
+
+        return res.status(204).json();
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
+
 };
 
 const removerConta = (req, res) => {
