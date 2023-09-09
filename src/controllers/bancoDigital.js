@@ -319,28 +319,37 @@ const transferirSaldo = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ 'mensagem': 'Erro interno.' });
     }
-
-
 };
 
-const exibirSaldo = (req, res) => {
+const exibirSaldo = async (req, res) => {
     const { numero_conta, senha } = req.query;
 
     if (!numero_conta || !senha) {
         return res.status(400).json({ 'mensagem': 'O número da conta e senha devem ser informados.' });
     };
 
-    const conta = validarDados.retornarConta(numero_conta, contas);
+    try {
 
-    if (!conta) {
-        return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
-    };
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
 
-    if (!validarDados.validarSenha(senha, conta)) {
-        return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' })
-    };
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
 
-    return res.status(200).json({ 'saldo': conta.saldo });
+        const conta = validarDados.retornarConta(numero_conta, contasCadastradasObj.contas);
+
+        if (!conta) {
+            return res.status(404).json({ 'mensagem': 'Conta inexistente!' });
+        };
+
+        if (!validarDados.validarSenha(senha, conta)) {
+            return res.status(401).json({ 'mensagem': 'A senha informada está incorreta.' })
+        };
+
+        return res.status(200).json({ 'saldo': conta.saldo });
+
+    } catch (error) {
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
+
 };
 
 const exibirExtrato = (req, res) => {
