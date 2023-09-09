@@ -1,10 +1,25 @@
 const gerarNumeroConta = require("../shared/gerarNumeroConta");
 const validarDados = require("../shared/validarDados");
-let { contas, depositos, saques, transferencias } = require("../data/bancodedados");
 const formatarData = require("../shared/registroData");
+const fs = require('fs/promises');
+let { contas, depositos, saques, transferencias } = require("../data/bancodedados");
 
-const listarContas = (req, res) => {
-    return res.status(200).json(contas);
+
+const listarContas = async (req, res) => {
+
+    try {
+
+        const contasCadastradas = await fs.readFile('./src/data/bancodigital.json');
+
+        const contasCadastradasObj = JSON.parse(contasCadastradas);
+
+        return res.status(200).json(contasCadastradasObj.contas);
+
+    } catch (error) {
+
+        return res.status(500).json({ 'mensagem': 'Erro interno.' });
+    }
+
 };
 
 const cadastrarConta = (req, res) => {
