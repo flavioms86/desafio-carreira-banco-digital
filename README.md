@@ -203,6 +203,94 @@ Retorno:
 204 No Content
 ```
 
+### Tranferir saldo entre contas:
+
+#### `POST` `/transacoes/transferir?senha_banco=Cubos123Bank`
+
+Requisição via json body.
+
+```json
+{
+	"numero_conta_origem": "2",
+	"numero_conta_destino": "1",
+	"valor": 15000,
+	"senha": "1234"
+}
+```
+
+Retorno:
+
+```
+204 No Content
+```
+
+### Saldo da conta:
+
+#### `GET` `/contas/saldo?numero_conta=123&senha=123`
+
+Requisição - Sem json body
+
+Na URL:
+```
+localhost:3000/contas/saldo?numero_conta=2&senha=1234&senha_banco=Cubos123Bank
+```
+
+Retorno:
+
+```json
+{
+	"saldo": 135000
+}
+```
+
+### Extrato da conta:
+
+#### `GET` `/contas/extrato?numero_conta=123&senha=123`
+
+Requisição - Sem json body
+
+Na URL:
+```
+localhost:3000/contas/extrato?numero_conta=2&senha=1234&senha_banco=Cubos123Bank
+```
+
+Retorno:
+
+```json
+{
+	"depositos": [
+		{
+			"data": "2023-09-10 12:19:43",
+			"numero_conta": "2",
+			"valor": 250000
+		}
+	],
+	"saques": [
+		{
+			"data": "2023-09-10 12:19:45",
+			"numero_conta": "2",
+			"valor": 100000
+		}
+	],
+	"transferenciasEnviadas": [
+		{
+			"data": "2023-09-10 12:19:48",
+			"numero_conta_origem": "2",
+			"numero_conta_destino": "1",
+			"valor": 15000
+		}
+	],
+	"transferenciasRecebidas": [
+		{
+			"data": "2023-09-10 12:20:15",
+			"numero_conta_origem": "1",
+			"numero_conta_destino": "2",
+			"valor": 10000
+		}
+	]
+}
+```
+
 ### ⌨️ E testes de estilo de codificação
 
 Explique que eles verificam esses testes e porquê.
