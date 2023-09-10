@@ -40,7 +40,7 @@ Para executar o projeto no seu ambiente de desenvolvimento em execução, primei
 git clone https://github.com/flavioms86/desafio-carreira-banco-digital.git
 ```
 
-Depois abra o projeto em seu editor de códigos, abra o terminal e digite o seguinte comando para a instalação dos pacotes e dependencias necessárias:
+Depois abra o projeto em seu editor de códigos, abra o terminal e digite o seguinte comando para a instalação dos pacotes e dependências necessárias:
 
 ```
 npm install
