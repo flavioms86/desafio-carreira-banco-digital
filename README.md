@@ -60,19 +60,25 @@ Ou pelo node:
 node .\src\index.js
 ```
 
+O servidor estará executando localmente e aceitando requisições na porta 3000:
+
+```
+localhost:3000
+```
+
 ## ⚙️ Estrutura do projeto
 
-<img src="./src/images/estrutura.png" alt="Estrutura do Projeot">
+<img src="./src/images/estrutura.png" alt="Estrutura do Projeto" width="250">
 
 ### 🔩 Endpoints da API Rest
 
 Para testar a API use Insomnia ou Postman para fazer as requisições.
 
-#### Listar usuários:
+### Listar usuários da conta:
 
 #### `GET` `/contas?senha_banco=Cubos123Bank`
 
-Retorno (Aqui resumido para fins de exemplo):
+Retorno (Aqui resumido para fins de demonstração):
 
 ```json
 [
@@ -91,23 +97,106 @@ Retorno (Aqui resumido para fins de exemplo):
 ]
 ```
 
-#### Criar conta bancária:
+### Criar conta:
 
-#### `POST` `/contas`
+#### `POST` `/contas?senha_banco=Cubos123Bank`
 
 Requisição via json body.
 
 ```json
 {
-	"nome": "Foo Bar",
-	"cpf": "00011122233",	
-	"data_nascimento": "2021-03-15",
-	"telefone": "71999998888",
-	"email": "foo@bar.com",
+	"nome": "Sicrano Santos",
+	"cpf": "11111111112",	
+	"data_nascimento": "1990-01-01",
+	"telefone": "83111111112",
+	"email": "sicrano@santos.com",
 	"senha": "1234"
 }
 
 ```
+Retorno:
+
+```
+204 No Content
+```
+
+### Atualizar usuário da conta:
+
+#### `PUT` `/contas/:numeroConta/usuario?senha_banco=Cubos123Bank`
+
+Requisição via json body.
+
+```json
+{
+	"nome": "Sicrano Santos Silva",
+	"cpf": "11111111112",	
+	"data_nascimento": "1990-01-01",
+	"telefone": "83111111112",
+	"email": "sicrano@santossilva.com",
+	"senha": "1234"
+}
+
+```
+
+Obs.: No parâmetro da URL :numeroConta coloque o numero da conta que deseja alterar o usuário.
+
+Retorno:
+
+```
+204 No Content
+```
+
+### Excluir Conta:
+
+#### `DELETE` `/contas/:numeroConta?senha_banco=Cubos123Bank`
+
+Requisição - Sem json body
+
+Na URL:
+```
+localhost:3000/contas/2?senha_banco=Cubos123Bank
+```
+Obs.: No parâmetro da URL :numeroConta coloque o numero da conta que deseja excluir.
+
+Retorno:
+
+```
+204 No Content
+```
+
+### Depositar na conta:
+
+#### `POST` `/transacoes/depositar?senha_banco=Cubos123Bank`
+
+Requisição via json body.
+
+```json
+{
+	"numero_conta": "2",
+	"valor": 250000
+}
+```
+
+Retorno:
+
+```
+204 No Content
+```
+
+### Sacar da conta:
+
+#### `POST` `/transacoes/sacar?senha_banco=Cubos123Bank`
+
+Requisição via json body.
+
+```json
+{
+	"numero_conta": "2",
+	"valor": 100000,
+	"senha": "1234"
+}
+```
+
 Retorno:
 
 ```
