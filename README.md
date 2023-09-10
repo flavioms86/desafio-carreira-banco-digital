@@ -30,6 +30,7 @@ Antes de executar este projeto no seu computador, você precisará de alguns pac
 Node.js - Para executar os códigos Javascript fora do navegador;
 Express - Pacote do Node.js para subir um servidor http localmente;
 Date-fns - Para trabalhar com o registro de datas nas transferências entre contas.
+Insomnia ou Postman - Para testar a API com requisições via GET, POST, PUT e DELETE.
 ```
 
 ### 🔧 Instalação
@@ -63,12 +64,54 @@ node .\src\index.js
 
 <img src="./src/images/estrutura.png" alt="Estrutura do Projeot">
 
-### 🔩 Analise os testes de ponta a ponta
+### 🔩 Endpoints da API Rest
 
-Explique que eles verificam esses testes e porquê.
+Para testar a API use Insomnia ou Postman para fazer as requisições.
+
+#### Listar usuários:
+
+#### `GET` `/contas?senha_banco=Cubos123Bank`
+
+Retorno (Aqui resumido para fins de exemplo):
+
+```json
+[
+	{
+		"numero": "1",
+		"saldo": 220333,
+		"usuario": {
+			"nome": "Foo Bar",
+			"cpf": "00011122233",
+			"data_nascimento": "2021-03-15",
+			"telefone": "71999998888",
+			"email": "foo@bar.com",
+			"senha": "1234"
+		}
+	}	
+]
+```
+
+#### Criar conta bancária:
+
+#### `POST` `/contas`
+
+Requisição via json body.
+
+```json
+{
+	"nome": "Foo Bar",
+	"cpf": "00011122233",	
+	"data_nascimento": "2021-03-15",
+	"telefone": "71999998888",
+	"email": "foo@bar.com",
+	"senha": "1234"
+}
 
 ```
-Dar exemplos
+Retorno:
+
+```
+204 No Content
 ```
 
 ### ⌨️ E testes de estilo de codificação
