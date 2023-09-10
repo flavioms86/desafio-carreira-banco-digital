@@ -24,7 +24,7 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
 
 ### 📋 Pré-requisitos
 
-Para executar esse projeto no seu computador, você precisará de alguns pacotes instalados como:
+Antes de executar este projeto no seu computador, você precisará de alguns pacotes instalados como:
 
 ```
 Node.js - Para executar os códigos Javascript fora do navegador;
@@ -34,21 +34,31 @@ Date-fns - Para trabalhar com o registro de datas nas transferências entre cont
 
 ### 🔧 Instalação
 
-Uma série de exemplos passo-a-passo que informam o que você deve executar para ter um ambiente de desenvolvimento em execução.
 
-Diga como essa etapa será:
-
-```
-Dar exemplos
-```
-
-E repita:
+Para executar o projeto no seu ambiente de desenvolvimento em execução, primeiramente faça o clone desse repositório em sua maquina local na pasta desejada:
 
 ```
-Até finalizar
+git clone https://github.com/flavioms86/desafio-carreira-banco-digital.git
 ```
 
-Termine com um exemplo de como obter dados do sistema ou como usá-los para uma pequena demonstração.
+Depois abra o projeto em seu editor de códigos, abra o terminal e digite o seguinte comando para a instalação dos pacotes e dependencias necessárias:
+
+```
+npm install
+```
+
+Após a instalação, o servidor pode ser executado via nodemon (para não precisar restartar o servidor depois de alguma alteração):
+
+```
+npm run dev
+```
+
+Ou pelo node:
+
+```
+node .\src\index.js
+```
+
 
 ## ⚙️ Executando os testes
 
