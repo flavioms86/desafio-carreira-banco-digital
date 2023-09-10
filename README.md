@@ -20,8 +20,6 @@ Todos os dados serão armazenados localmente no arquivo bancodigital.json
 
 Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e testes.
 
-Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
-
 ### 📋 Pré-requisitos
 
 Antes de executar este projeto no seu computador, você precisará de alguns pacotes instalados como:
