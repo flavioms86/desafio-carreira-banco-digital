@@ -59,10 +59,9 @@ Ou pelo node:
 node .\src\index.js
 ```
 
+## ⚙️ Estrutura do projeto
 
-## ⚙️ Executando os testes
-
-Explicar como executar os testes automatizados para este sistema.
+<img src="./src/images/estrutura.png" alt="Estrutura do Projeot">
 
 ### 🔩 Analise os testes de ponta a ponta
 
