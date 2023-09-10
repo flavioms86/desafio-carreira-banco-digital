@@ -14,7 +14,7 @@ API Rest desenvolvida para representar as seguintes operações diárias de um s
 * Consultar saldo da conta bancária
 * Emitir extrato bancário
 
-Todos os dados serão armazenados localmente no arquivo bancodigital.json
+Todos os dados serão armazenados localmente no arquivo bancodigital.json (Persistência de dados em disco).
 
 ## 🚀 Começando
 
