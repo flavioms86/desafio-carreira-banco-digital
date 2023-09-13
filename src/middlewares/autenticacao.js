@@ -1,4 +1,4 @@
-const verificarUsuario = (req, res, next) => {
+const verificarUsuarioAutenticado = (req, res, next) => {
     const { senha_banco } = req.query;
 
     if (!senha_banco) {
@@ -16,6 +16,4 @@ const verificarUsuario = (req, res, next) => {
     };
 };
 
-module.exports = {
-    verificarUsuario
-}
+module.exports = verificarUsuarioAutenticado
