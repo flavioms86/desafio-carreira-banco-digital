@@ -97,7 +97,7 @@ Retorno (Aqui resumido para fins de demonstração):
 
 ### Criar conta:
 
-#### `POST` `/contas?senha_banco=Cubos123Bank`
+#### `POST` `/contas`
 
 Requisição via json body.
 
@@ -120,7 +120,7 @@ Retorno:
 
 ### Atualizar usuário da conta:
 
-#### `PUT` `/contas/:numeroConta/usuario?senha_banco=Cubos123Bank`
+#### `PUT` `/contas/:numeroConta/usuario`
 
 Requisição via json body.
 
@@ -146,7 +146,7 @@ Retorno:
 
 ### Excluir Conta:
 
-#### `DELETE` `/contas/:numeroConta?senha_banco=Cubos123Bank`
+#### `DELETE` `/contas/:numeroConta`
 
 Requisição - Sem json body
 
@@ -164,7 +164,7 @@ Retorno:
 
 ### Depositar na conta:
 
-#### `POST` `/transacoes/depositar?senha_banco=Cubos123Bank`
+#### `POST` `/transacoes/depositar`
 
 Requisição via json body.
 
@@ -183,7 +183,7 @@ Retorno:
 
 ### Sacar da conta:
 
-#### `POST` `/transacoes/sacar?senha_banco=Cubos123Bank`
+#### `POST` `/transacoes/sacar`
 
 Requisição via json body.
 
@@ -203,7 +203,7 @@ Retorno:
 
 ### Tranferir saldo entre contas:
 
-#### `POST` `/transacoes/transferir?senha_banco=Cubos123Bank`
+#### `POST` `/transacoes/transferir`
 
 Requisição via json body.
 
@@ -294,7 +294,7 @@ Retorno:
 O projeto poderá ter novos recursos e melhorias como:
 
 - [ ] Remoção de registro de saques, depósitos e transferências quando um usuário é excluído do banco de dados.
-- [ ] Persistência de dados em um banco de dados SQL ou NOSQL.
+- [ ] Persistência de dados em um banco de dados SQL ou NoSQL.
 - [ ] Nova tarefa a ser definida.
 - [ ] Nova tarefa a ser definida.
 - [ ] Nova tarefa a ser definida.
