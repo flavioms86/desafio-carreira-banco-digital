@@ -301,7 +301,7 @@ O projeto poderá ter novos recursos e melhorias como:
 
 ## 🛠️ Construído com
 
-Mencione as ferramentas que você usou para criar seu projeto
+Ferramentas utilizadas no desenvolvimento do projeto.
 
 * [Node.js](https://nodejs.org/en) - Javascript runtime environment
 * [Express](https://expressjs.com/pt-br/) - Framework para aplicação Web do Node.js
